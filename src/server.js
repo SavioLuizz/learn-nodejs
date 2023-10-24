@@ -5,10 +5,38 @@
 */
 
 import http from 'node:http';
+const users = [];
 
 //Criando servidor
 //passando como parametro uma arrow function
 const server = http.createServer((req,res) => {
+    
+    /*  metodo de desestruturacao onde eu so preciso indicar 
+        o que eu irei "pegar",nesse caso "method" e a "url"
+    */
+    const { method, url } = req;
+    
+    /*Json é o obejto em JS onde vou guardar informaçoes do proprio
+    No caso,o front nao aceita um array como resposta entao
+    entao se usa Json.stringify para passar os user[] para string;
+    */
+    if (method == "GET" && url == "/users"){
+        return res.end(JSON.stringify(users));
+    }
+
+    // Criando usuários na mão...
+    if (method == "POST" && url == "/users"){
+        //metodo .push é utilizado para adicionar valores a um array
+        users.push({
+            id: 1,
+            name: "savio",
+            email: "savioluizgmail.com"
+        });
+        return res.end("Criação de usuários")
+    }
+
+    console.log(method,url);
+
     res.end('Hello Word')
 
 });
