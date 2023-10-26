@@ -24,7 +24,7 @@ import {Readable, Writable, Transform} from 'node:stream';
             }
         }, 1000);
     }
-    }
+}
 
     class InverseNumberStream extends Transform {
         _transform(chunk, encoding, callback){
