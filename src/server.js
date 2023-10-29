@@ -6,7 +6,8 @@
 
 import http from 'node:http';
 import { json } from './middlewares/json.js';
-const users = [];
+import { Database } from './database.js';
+const database = new Database();
 
 //Criando servidor
 //passando como parametro uma arrow function
@@ -24,8 +25,9 @@ const server = http.createServer(async (req, res) => {
     entao se usa Json.stringify para passar os user[] para string;
     */
     if (method == "GET" && url == "/users") {
-        return res
-            .end(JSON.stringify(users))
+        const users = database.select('users')
+
+        return res.end(JSON.stringify(users))
     }
 
     // Criando usuários na mão...
@@ -33,11 +35,14 @@ const server = http.createServer(async (req, res) => {
 
         const { name, email } = req.body;
         //metodo .push é utilizado para adicionar valores a um array
-        users.push({
+        const user = {
             id: 1,
-            name: "savio",
-            email: "savioluizgmail.com"
-        });
+            name ,
+            email
+        }
+
+        database.insert('users', user);
+
         //Estou passando o status code 201 = Alguma coisa foi criada com sucesso
         return res.writeHead(201).end();
     }
