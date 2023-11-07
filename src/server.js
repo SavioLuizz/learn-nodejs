@@ -6,8 +6,7 @@
 
 import http from 'node:http';
 import { json } from './middlewares/json.js';
-import { Database } from './database.js';
-const database = new Database();
+import { routes } from './routes.js';
 
 //Criando servidor
 //passando como parametro uma arrow function
@@ -20,31 +19,12 @@ const server = http.createServer(async (req, res) => {
 
     await json(req, res)
 
-    /*Json é o obejto em JS onde vou guardar informaçoes do proprio
-    No caso,o front nao aceita um array como resposta entao
-    entao se usa Json.stringify para passar os user[] para string;
-    */
-    if (method == "GET" && url == "/users") {
-        const users = database.select('users')
+    const route = routes.find(route =>{
+        return route.method == method && route.path == url
+    })
 
-        return res.end(JSON.stringify(users))
-    }
-
-    // Criando usuários na mão...
-    if (method == "POST" && url == "/users") {
-
-        const { name, email } = req.body;
-        //metodo .push é utilizado para adicionar valores a um array
-        const user = {
-            id: 1,
-            name ,
-            email
-        }
-
-        database.insert('users', user);
-
-        //Estou passando o status code 201 = Alguma coisa foi criada com sucesso
-        return res.writeHead(201).end();
+    if(route){
+        return route.handler(req, res)
     }
 
     return res.writeHead(404).end();

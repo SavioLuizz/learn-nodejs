@@ -1,5 +1,5 @@
 /*
-Stream -> n'ao preciso pegar o arquivo todo so para depois começar 
+Stream -> nao preciso pegar o arquivo todo so para depois começar 
 a utilizado. Como um exemplo,quero meu usuário quer me mandar um arquivo de 1gb
 com as streams,nao preciso baixar o arquivo todo para começar a utiliza-lo.
 */
