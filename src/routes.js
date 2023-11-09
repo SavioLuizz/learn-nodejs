@@ -30,6 +30,13 @@ export const routes = [
             return res.writeHead(201).end();
         }
 
+    },
+    {
+        method: 'DELETE',
+        path: '/users/02169f17-1faa-4243-a719-ca74e03d331f',
+        handler: (req, res) => {
+            return res.end();
+        }
     }
 
 ]
